@@ -56,6 +56,7 @@ class DebugI2C:
     the code to your board.
 
     .. code-block:: python
+
         import adafruit_lis3dh
         from adafruit_debug_i2c import DebugI2C
         import busio
@@ -110,7 +111,8 @@ class DebugI2C:
 
     def scan(self):
         """
-        Scan all I2C addresses between 0x08 and 0x77 inclusive and return a list of those that respond.
+        Scan all I2C addresses between 0x08 and 0x77 inclusive and return a list of those that
+        respond.
 
         :return: List of device ids on the I2C bus
         :rtype: list

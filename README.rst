@@ -31,9 +31,6 @@ Installing from PyPI
 .. note:: This library is not available on PyPI yet. Install documentation is included
    as a standard element. Stay tuned for PyPI availability!
 
-.. todo:: Remove the above note if PyPI version is/will be available at time of release.
-   If the library is not planned for PyPI, remove the entire 'Installing from PyPI' section.
-
 On supported GNU/Linux systems like the Raspberry Pi, you can install the driver locally `from
 PyPI <https://pypi.org/project/adafruit-circuitpython-debug_i2c/>`_. To install for current user:
 
@@ -59,7 +56,26 @@ To install in a virtual environment in your current project:
 Usage Example
 =============
 
-.. todo:: Add a quick, simple example. It and other examples should live in the examples folder and be included in docs/examples.rst.
+This example uses the LIS3DH accelerometer. This lib can be used with any I2C device. Save
+the code to your board.
+
+.. code-block:: python
+
+    import adafruit_lis3dh
+    from adafruit_debug_i2c import DebugI2C
+    import busio
+    import board
+    import digitalio
+
+    i2c = DebugI2C(busio.I2C(board.SCL, board.SDA))
+    int1 = digitalio.DigitalInOut(board.ACCELEROMETER_INTERRUPT)
+    accelerometer = adafruit_lis3dh.LIS3DH_I2C(i2c, address=0x19, int1=int1)
+
+    print(accelerometer.acceleration)
+
+    for i in range(2):
+        print(accelerometer.acceleration)
+
 
 Contributing
 ============
