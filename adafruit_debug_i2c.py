@@ -40,7 +40,6 @@ Implementation Notes
 
 __version__ = "0.0.0-auto.0"
 __repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_Debug_I2C.git"
-from re import sub
 
 class DebugI2C:
     """
@@ -73,7 +72,6 @@ class DebugI2C:
             print(accelerometer.acceleration)
 
     """
-    #pylint: disable=anomalous-backslash-in-string
     def __init__(self, i2c):
         self._i2c = i2c
         if hasattr(self._i2c, 'writeto_then_readfrom'):
@@ -109,7 +107,7 @@ class DebugI2C:
         """
         self._i2c.readfrom_into(address, buffer, *args, start=start, end=end)
 
-        in_buffer_str = sub("\[|\]|'", "", str([hex(i) for i in buffer]))
+        in_buffer_str = ", ".join([hex(i) for i in buffer])
         print("\tI2CREAD  @ {} ::".format(hex(address)), in_buffer_str)
 
     def scan(self):
@@ -150,7 +148,7 @@ class DebugI2C:
         """
         self._i2c.writeto(address, buffer, *args, **kwargs)
 
-        out_buffer_str = sub("\[|\]|'", "", str([hex(i) for i in buffer]))
+        out_buffer_str = ", ".join([hex(i) for i in buffer])
         print("\tI2CWRITE @ {} ::".format(hex(address)), out_buffer_str)
 
     def _writeto_then_readfrom(self, address, buffer_out, buffer_in, *args, out_start=0,
@@ -172,11 +170,11 @@ class DebugI2C:
         :param int in_end: End of the slice; this index is not included. Defaults to
                            ``len(buffer_in)``
         """
-        out_buffer_str = sub("\[|\]|'", "", str([hex(i) for i in buffer_out[out_start:out_end]]))
+        out_buffer_str = ", ".join([hex(i) for i in buffer_out[out_start:out_end]])
         print("\tI2CWRITE @ {} ::".format(hex(address)), out_buffer_str)
 
         self._i2c.writeto_then_readfrom(address, buffer_out, buffer_in, *args, out_start=out_start,
                                         out_end=out_end, in_start=in_start, in_end=in_end)
 
-        in_buffer_str = sub("\[|\]|'", "", str([hex(i) for i in buffer_in[in_start:in_end]]))
+        in_buffer_str = ", ".join([hex(i) for i in buffer_in[in_start:in_end]])
         print("\tI2CREAD  @ {} ::".format(hex(address)), in_buffer_str)
