@@ -73,6 +73,7 @@ class DebugI2C:
             print(accelerometer.acceleration)
 
     """
+    #pylint: disable=anomalous-backslash-in-string
     def __init__(self, i2c):
         self._i2c = i2c
         if hasattr(self._i2c, 'writeto_then_readfrom'):
@@ -149,7 +150,7 @@ class DebugI2C:
         """
         self._i2c.writeto(address, buffer, *args, **kwargs)
 
-        out_buffer_str = sub("\[|\]|'", "", str( [hex(i) for i in buffer]))
+        out_buffer_str = sub("\[|\]|'", "", str([hex(i) for i in buffer]))
         print("\tI2CWRITE @ {} ::".format(hex(address)), out_buffer_str)
 
     def _writeto_then_readfrom(self, address, buffer_out, buffer_in, *args, out_start=0,
