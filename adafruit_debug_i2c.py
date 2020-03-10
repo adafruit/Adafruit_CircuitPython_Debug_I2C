@@ -41,6 +41,7 @@ Implementation Notes
 __version__ = "0.0.0-auto.0"
 __repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_Debug_I2C.git"
 
+
 class DebugI2C:
     """
     Wrapper library for debugging I2C.
@@ -72,9 +73,10 @@ class DebugI2C:
             print(accelerometer.acceleration)
 
     """
+
     def __init__(self, i2c):
         self._i2c = i2c
-        if hasattr(self._i2c, 'writeto_then_readfrom'):
+        if hasattr(self._i2c, "writeto_then_readfrom"):
             self.writeto_then_readfrom = self._writeto_then_readfrom
 
     def __enter__(self):
@@ -151,8 +153,17 @@ class DebugI2C:
         out_buffer_str = ", ".join([hex(i) for i in buffer])
         print("\tI2CWRITE @ {} ::".format(hex(address)), out_buffer_str)
 
-    def _writeto_then_readfrom(self, address, buffer_out, buffer_in, *args, out_start=0,
-                               out_end=None, in_start=0, in_end=None):
+    def _writeto_then_readfrom(
+        self,
+        address,
+        buffer_out,
+        buffer_in,
+        *args,
+        out_start=0,
+        out_end=None,
+        in_start=0,
+        in_end=None
+    ):
         """
         Debug version of ``write_readinto`` that prints the ``buffer_out`` before writing and the
         ``buffer_in`` after reading.
@@ -173,8 +184,16 @@ class DebugI2C:
         out_buffer_str = ", ".join([hex(i) for i in buffer_out[out_start:out_end]])
         print("\tI2CWRITE @ {} ::".format(hex(address)), out_buffer_str)
 
-        self._i2c.writeto_then_readfrom(address, buffer_out, buffer_in, *args, out_start=out_start,
-                                        out_end=out_end, in_start=in_start, in_end=in_end)
+        self._i2c.writeto_then_readfrom(
+            address,
+            buffer_out,
+            buffer_in,
+            *args,
+            out_start=out_start,
+            out_end=out_end,
+            in_start=in_start,
+            in_end=in_end,
+        )
 
         in_buffer_str = ", ".join([hex(i) for i in buffer_in[in_start:in_end]])
         print("\tI2CREAD  @ {} ::".format(hex(address)), in_buffer_str)
