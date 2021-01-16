@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2021 ladyada for Adafruit Industries
+# SPDX-License-Identifier: MIT
+
 """This example uses the LIS3DH accelerometer. Debug_I2C can be used with any I2C device."""
 import board
 import digitalio
