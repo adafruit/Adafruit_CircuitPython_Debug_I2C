@@ -166,7 +166,8 @@ class DebugI2C:
         """
         out_buffer_str = ", ".join([hex(i) for i in buffer_out[out_start:out_end]])
         print("\tI2CWRITE @ {} ::".format(hex(address)), out_buffer_str)
-
+        if in_end is None:
+            in_end = len(buffer_in)
         self._i2c.writeto_then_readfrom(
             address,
             buffer_out,
