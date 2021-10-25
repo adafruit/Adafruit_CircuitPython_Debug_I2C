@@ -50,6 +50,11 @@ the code to your board.
         print(accelerometer.acceleration)
 
 
+Documentation
+=============
+
+API documentation for this library can be found on `Read the Docs <https://circuitpython.readthedocs.io/projects/debug_i2c/en/latest/>`_.
+
 Contributing
 ============
 
