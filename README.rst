@@ -2,7 +2,7 @@ Introduction
 ============
 
 .. image:: https://readthedocs.org/projects/adafruit-circuitpython-debug_i2c/badge/?version=latest
-    :target: https://circuitpython.readthedocs.io/projects/debug_i2c/en/latest/
+    :target: https://docs.circuitpython.org/projects/debug_i2c/en/latest/
     :alt: Documentation Status
 
 .. image:: https://img.shields.io/discord/327254708534116352.svg
@@ -53,7 +53,7 @@ the code to your board.
 Documentation
 =============
 
-API documentation for this library can be found on `Read the Docs <https://circuitpython.readthedocs.io/projects/debug_i2c/en/latest/>`_.
+API documentation for this library can be found on `Read the Docs <https://docs.circuitpython.org/projects/debug_i2c/en/latest/>`_.
 
 Contributing
 ============
