@@ -21,6 +21,14 @@ Implementation Notes
 
 """
 
+try:
+    from typing import Optional, Type, List
+    from types import TracebackType
+    from circuitpython_typing import WriteableBuffer, ReadableBuffer
+    from busio import I2C
+except ImportError:
+    pass
+
 __version__ = "0.0.0-auto.0"
 __repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_Debug_I2C.git"
 
@@ -57,35 +65,47 @@ class DebugI2C:
 
     """
 
-    def __init__(self, i2c):
+    def __init__(self, i2c: I2C) -> None:
         self._i2c = i2c
         if hasattr(self._i2c, "writeto_then_readfrom"):
             self.writeto_then_readfrom = self._writeto_then_readfrom
 
-    def __enter__(self):
+    def __enter__(self) -> I2C:
         """
         No-op used in Context Managers.
         """
         return self._i2c.__enter__()
 
-    def __exit__(self, exc_type, exc_val, exc_tb):
+    def __exit__(
+        self,
+        exc_type: Optional[Type[type]],
+        exc_val: Optional[BaseException],
+        exc_tb: Optional[TracebackType],
+    ) -> None:
         """
         Automatically deinitialises the hardware on context exit.
         """
         return self._i2c.__exit__(exc_type, exc_val, exc_tb)
 
-    def deinit(self):
+    def deinit(self) -> None:
         """
         Releases control of the underlying I2C hardware so other classes can use it.
         """
         return self._i2c.deinit()
 
-    def readfrom_into(self, address, buffer, *args, start=0, end=None):
+    def readfrom_into(
+        self,
+        address: int,
+        buffer: WriteableBuffer,
+        *args,
+        start: int = 0,
+        end: Optional[int] = None
+    ) -> None:
         """
         Debug version of ``readfrom_into`` that prints the buffer after reading.
 
         :param int address: 7-bit device address
-        :param bytearray buffer: buffer to write into
+        :param ~WritableBuffer buffer: buffer to write into
         :param int start: Index to start writing at
         :param int end: Index to write up to but not include
 
@@ -95,7 +115,7 @@ class DebugI2C:
         in_buffer_str = ", ".join([hex(i) for i in buffer])
         print("\tI2CREAD  @ {} ::".format(hex(address)), in_buffer_str)
 
-    def scan(self):
+    def scan(self) -> List[int]:
         """
         Scan all I2C addresses between 0x08 and 0x77 inclusive and return a list of those that
         respond.
@@ -105,7 +125,7 @@ class DebugI2C:
         """
         return self._i2c.scan()
 
-    def try_lock(self):
+    def try_lock(self) -> bool:
         """
         Attempts to grab the I2C lock. Returns True on success.
 
@@ -114,18 +134,18 @@ class DebugI2C:
         """
         return self._i2c.try_lock()
 
-    def unlock(self):
+    def unlock(self) -> None:
         """
         Releases the I2C lock.
         """
         return self._i2c.unlock()
 
-    def writeto(self, address, buffer, *args, **kwargs):
+    def writeto(self, address: int, buffer: ReadableBuffer, *args, **kwargs) -> None:
         """
         Debug version of ``write`` that prints the buffer before sending.
 
         :param int address: 7-bit device address
-        :param bytearray buffer: buffer containing the bytes to write
+        :param ~ReadableBuffer buffer: buffer containing the bytes to write
         :param int start: Index to start writing from
         :param int end: Index to read up to but not include
         :param bool stop: If true, output an I2C stop condition after the
@@ -138,23 +158,22 @@ class DebugI2C:
 
     def _writeto_then_readfrom(
         self,
-        address,
-        buffer_out,
-        buffer_in,
+        address: int,
+        buffer_out: ReadableBuffer,
+        buffer_in: WriteableBuffer,
         *args,
-        out_start=0,
-        out_end=None,
-        in_start=0,
-        in_end=None
-    ):
+        out_start: int = 0,
+        out_end: Optional[int] = None,
+        in_start: int = 0,
+        in_end: Optional[int] = None
+    ) -> None:
         """
         Debug version of ``write_readinto`` that prints the ``buffer_out`` before writing and the
         ``buffer_in`` after reading.
 
-        :TODO Verify parameter documentation is accurate
-        :param address: 7-bit device address
-        :param bytearray buffer_out: Write out the data in this buffer
-        :param bytearray buffer_in: Read data into this buffer
+        :param int address: 7-bit device address
+        :param ~ReadableBuffer buffer_out: Write out the data in this buffer
+        :param ~WriteableBuffer buffer_in: Read data into this buffer
         :param int out_start: Start of the slice of buffer_out to write out:
                               ``buffer_out[out_start:out_end]``
         :param int out_end: End of the slice; this index is not included. Defaults to
