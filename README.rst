@@ -75,15 +75,15 @@ To build this library locally you'll need to install the
 
 .. code-block:: shell
 
-    python3 -m venv .env
-    source .env/bin/activate
+    python3 -m venv .venv
+    source .venv/bin/activate
     pip install circuitpython-build-tools
 
 Once installed, make sure you are in the virtual environment:
 
 .. code-block:: shell
 
-    source .env/bin/activate
+    source .venv/bin/activate
 
 Then run the build:
 
@@ -99,8 +99,8 @@ install dependencies (feel free to reuse the virtual environment from above):
 
 .. code-block:: shell
 
-    python3 -m venv .env
-    source .env/bin/activate
+    python3 -m venv .venv
+    source .venv/bin/activate
     pip install Sphinx sphinx-rtd-theme
 
 Now, once you have the virtual environment activated:
