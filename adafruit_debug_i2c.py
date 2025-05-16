@@ -22,10 +22,11 @@ Implementation Notes
 """
 
 try:
-    from typing import Optional, Type, List
     from types import TracebackType
-    from circuitpython_typing import WriteableBuffer, ReadableBuffer
+    from typing import List, Optional, Type
+
     from busio import I2C
+    from circuitpython_typing import ReadableBuffer, WriteableBuffer
 except ImportError:
     pass
 
@@ -99,7 +100,7 @@ class DebugI2C:
         buffer: WriteableBuffer,
         *args,
         start: int = 0,
-        end: Optional[int] = None
+        end: Optional[int] = None,
     ) -> None:
         """
         Debug version of ``readfrom_into`` that prints the buffer after reading.
@@ -113,7 +114,7 @@ class DebugI2C:
         self._i2c.readfrom_into(address, buffer, *args, start=start, end=end)
 
         in_buffer_str = ", ".join([hex(i) for i in buffer])
-        print("\tI2CREAD  @ {} ::".format(hex(address)), in_buffer_str)
+        print(f"\tI2CREAD  @ {hex(address)} ::", in_buffer_str)
 
     def scan(self) -> List[int]:
         """
@@ -154,7 +155,7 @@ class DebugI2C:
         self._i2c.writeto(address, buffer, *args, **kwargs)
 
         out_buffer_str = ", ".join([hex(i) for i in buffer])
-        print("\tI2CWRITE @ {} ::".format(hex(address)), out_buffer_str)
+        print(f"\tI2CWRITE @ {hex(address)} ::", out_buffer_str)
 
     def _writeto_then_readfrom(
         self,
@@ -165,7 +166,7 @@ class DebugI2C:
         out_start: int = 0,
         out_end: Optional[int] = None,
         in_start: int = 0,
-        in_end: Optional[int] = None
+        in_end: Optional[int] = None,
     ) -> None:
         """
         Debug version of ``write_readinto`` that prints the ``buffer_out`` before writing and the
@@ -184,7 +185,7 @@ class DebugI2C:
                            ``len(buffer_in)``
         """
         out_buffer_str = ", ".join([hex(i) for i in buffer_out[out_start:out_end]])
-        print("\tI2CWRITE @ {} ::".format(hex(address)), out_buffer_str)
+        print(f"\tI2CWRITE @ {hex(address)} ::", out_buffer_str)
         if in_end is None:
             in_end = len(buffer_in)
         self._i2c.writeto_then_readfrom(
@@ -199,4 +200,4 @@ class DebugI2C:
         )
 
         in_buffer_str = ", ".join([hex(i) for i in buffer_in[in_start:in_end]])
-        print("\tI2CREAD  @ {} ::".format(hex(address)), in_buffer_str)
+        print(f"\tI2CREAD  @ {hex(address)} ::", in_buffer_str)

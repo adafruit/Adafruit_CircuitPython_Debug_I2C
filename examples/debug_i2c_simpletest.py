@@ -2,9 +2,11 @@
 # SPDX-License-Identifier: MIT
 
 """This example uses the LIS3DH accelerometer. Debug_I2C can be used with any I2C device."""
+
+import adafruit_lis3dh
 import board
 import digitalio
-import adafruit_lis3dh
+
 from adafruit_debug_i2c import DebugI2C
 
 i2c = DebugI2C(board.I2C())
