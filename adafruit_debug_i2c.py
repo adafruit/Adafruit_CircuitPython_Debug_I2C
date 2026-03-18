@@ -71,6 +71,8 @@ class DebugI2C:
         if hasattr(self._i2c, "writeto_then_readfrom"):
             self.writeto_then_readfrom = self._writeto_then_readfrom
 
+        self.probe = self._i2c.probe
+
     def __enter__(self) -> I2C:
         """
         No-op used in Context Managers.
