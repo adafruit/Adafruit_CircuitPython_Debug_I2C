@@ -190,6 +190,8 @@ class DebugI2C:
         print(f"\tI2CWRITE @ {hex(address)} ::", out_buffer_str)
         if in_end is None:
             in_end = len(buffer_in)
+        if out_end is None:
+            out_end = len(buffer_out)
         self._i2c.writeto_then_readfrom(
             address,
             buffer_out,
